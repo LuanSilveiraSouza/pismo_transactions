@@ -48,6 +48,69 @@ func (s service) Add(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if account.Name == "" {
+		common.ResponseError(w, ctx, "Name is empty", nil)
+		return
+	}
+	if account.Document == "" {
+		common.ResponseError(w, ctx, "Document is empty", nil)
+		return
+	}
+	if account.Address == "" {
+		common.ResponseError(w, ctx, "Address is empty", nil)
+		return
+	}
+	if account.AddressNumber == "" {
+		common.ResponseError(w, ctx, "Address Number is empty", nil)
+		return
+	}
+	if account.City == "" {
+		common.ResponseError(w, ctx, "City is empty", nil)
+		return
+	}
+
+	var UFTypes = []string{
+		"AC",
+		"AL",
+		"AP",
+		"AM",
+		"BA",
+		"CE",
+		"DF",
+		"ES",
+		"GO",
+		"MA",
+		"MT",
+		"MS",
+		"MG",
+		"PA",
+		"PB",
+		"PR",
+		"PE",
+		"PI",
+		"RJ",
+		"RN",
+		"RS",
+		"RO",
+		"RR",
+		"SC",
+		"SP",
+		"SE",
+		"TO",
+	}
+
+	var validUf = false
+	for _, uftype := range UFTypes {
+		if uftype == account.UF {
+			validUf = true
+		}
+	}
+
+	if !validUf {
+		common.ResponseError(w, ctx, "Invalid UF", nil)
+		return
+	}
+
 	account.Balance = 0
 	result = s.db.Create(&account)
 

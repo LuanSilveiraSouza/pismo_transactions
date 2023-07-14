@@ -67,7 +67,7 @@ func main() {
 		errs <- http.ListenAndServe(*httpAddr, handler)
 	}()
 
-	fmt.Errorf("exit", <-errs)
+	fmt.Print(<-errs)
 }
 
 func ConnectDatabase() (*gorm.DB, error) {
